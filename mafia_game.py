@@ -1,5 +1,5 @@
 from server import WebServerSocket
-import threading
+import threading,time
 
 class MafiaGame:
     def __init__(self):
@@ -40,8 +40,28 @@ class MafiaGame:
         with self.wssock.forward_q_lock:
             self.wssock.forward_q = []
 
+    def mafia_round(self):
+        self.wssock.send(self.mafias, "#MAFIA_VOTE")
+        print("Sent.")
+        breaking = 0
+        while breaking!=2:
+            time.sleep(0.5);
+            with self.wssock.forward_q_lock:
+                if len(self.wssock.forward_q)!=0:print(self.wssock.forward_q)
+                for i in range(len(self.wssock.forward_q)):
+                    cl,mes = self.wssock.forward_q.pop()
+                    for m in self.mafias:
+                        if (m,"#DONE_VOTING")==(cl,mes):
+                            breaking += 1
+                    if(mes[:len("#VOTE_")] == "#VOTE_"):
+                        print(cl.name + " voted for " + mes[len("#VOTE_"):])
+
+        print("Recv")
+
 
     def play(self):
         self.type_round()
+        time.sleep(2)
+        self.mafia_round()
 
 MafiaGame().play()

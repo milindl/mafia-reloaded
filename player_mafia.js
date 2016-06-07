@@ -23,4 +23,10 @@ function dealMafiaMessage(e) {
       document.getElementById("player-names-mafia").appendChild(mplayer);
     }
   }
+  if(message.indexOf("#MAFIA_VOTE") == 0) {
+    console.log("Recvd vote");
+    ws.send("#VOTE_HELLO");
+    for(var i=4; i!=1000; i++) var j = Math.sqrt(1234.5623123); 
+    ws.send("#DONE_VOTING");
+  }
 }

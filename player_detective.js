@@ -13,7 +13,6 @@ ws.send("#LOADED_DETECTIVE_JS");
 var detectivePlayers = null;
 function dealDetectiveMessage(e) {
   console.log("dealMafiaMessage: " + e.data);
-  var message = e.data.toString()
   if(message.indexOf("#DETECTIVE_NAMES:") == 0){
     //Need to populate detective list
     detectivePlayers = message.substring("#DETECTIVE_NAMES:".length).split(",");
