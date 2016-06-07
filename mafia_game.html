@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mafia</title>
+</head>
+<script type="text/javascript" src="mafia_r.js"></script>
+<body>
+  <div id="player-panel">
+    <span id="player-type"></span>
+    <form id="player-names" name="player-names">All Players:</form>
+  </div>
+  <script>
+  // Deal with the socket connections
+  //Set username etc
+  var players = [];
+  var usrname = window.location.toString().split("?username=")[1]
+  var ws = new WebSocket("ws://localhost:7000", usrname);
+  ws.onopen = function(e) {
+    ws.addEventListener("message", dealMessage);
+  };
+  ws.onerror = function(e) {
+    alert("Error".toString());
+  };
+  var round = "";
+  function dealMessage(e) {
+    console.log("dealMessage: " + e.data);
+    var message = e.data.toString();
+    if(message.indexOf("#TYPE:")==0) {
+      round="#type";
+      type = message.substring(6);
+      document.getElementById("player-type").innerHTML = "You are: "+ type;
+      if(type=="Mafia") loadScript("player_mafia.js");
+      if(type=="Detective") loadScript("player_detective.js");
+      return;
+    }
+    if(message.indexOf("#NAMES:") == 0) {
+      players = message.substring(7).split(",");
+      for(var i=0; i!=players.length; i++) {
+        var player = document.createElement('input');
+        player.type = "radio";
+        player.value = "radio-for-" + players[i];
+        player.id = "radio-for-" + players[i];
+        player.name = "selected-player";
+        var pLabel = document.createElement('label');
+        player.class = "radio-for-player";
+        document.getElementById("player-names").appendChild(document.createElement('br'));
+        document.getElementById("player-names").appendChild(pLabel);
+        pLabel.appendChild(player);
+        pLabel.appendChild(document.createTextNode(players[i]));
+        player.style.display='none';
+      }
+    }
+  }
+  </script>
+</body>
+</html>
