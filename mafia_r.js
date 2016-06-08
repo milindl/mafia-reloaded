@@ -41,11 +41,12 @@ function setupVoting(roundTime) {
   var sendVote = function(e){
     var selected = document.player_names.selected_player.value;
     ws.send("#VOTE:"+selected.substring("radio-for-".length));
-    timer(roundTime,endVote, function(){});
   };
   endVote = function() {
+
     for(var i=0; i!=rboxes.length; i++) {
       rboxes[i].style.display = "none";
+      rboxes[i].checked = false ;
       rboxes[i].removeEventListener("change", sendVote);
     }
     ws.send("#DONE_VOTING");
@@ -56,4 +57,5 @@ function setupVoting(roundTime) {
     rboxes[i].style.display = "";
     rboxes[i].addEventListener("change", sendVote);
   }
+  timer(roundTime,endVote, function(){});
 }

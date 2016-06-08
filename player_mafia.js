@@ -1,4 +1,4 @@
-ws.removeEventListener("message",dealMessage);
+//ws.removeEventListener("message",dealMessage);
 ws.addEventListener("message", dealMafiaMessage);
 ws.send("#LOADED_MAFIA_JS");
 //Certain anonymous functions to make spaces in the player-panel
@@ -27,12 +27,6 @@ function dealMafiaMessage(e) {
   if(message.indexOf("#MAFIA_VOTE") == 0) {
     setupVoting(7);
   }
-  if(message.indexOf("#VOTE:")==0) {
-    var ms = message.split(":");
-    voter = ms[1];
-    votee = ms[2];
-    voteBank[voter] = votee;
-    document.getElementById("voting-for").innerHTML = "" + voteBankString(voteBank);
-  }
+  
 
 }

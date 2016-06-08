@@ -1,4 +1,4 @@
-ws.removeEventListener("message",dealMessage);
+//ws.removeEventListener("message",dealMessage);
 ws.addEventListener("message", dealDetectiveMessage);
 ws.send("#LOADED_DETECTIVE_JS");
 //Certain anonymous functions to make spaces in the player-panel
@@ -28,19 +28,16 @@ function dealDetectiveMessage(e) {
   if(message.indexOf("#DETECTIVE_VOTE") == 0) {
     setupVoting(7);
   }
-  if(message.indexOf("#VOTE:")==0) {
-    var ms = message.split(":");
-    voter = ms[1];
-    votee = ms[2];
-    voteBank[voter] = votee;
-    document.getElementById("voting-for").innerHTML = "" + voteBankString(voteBank);
-  }
+
   if(message.indexOf("#DETECTION_RESULT:") == 0) {
     var dr = message.split(":");
     if(dr[2]=="True"){
-      document.getElementById("detective-result").innerHTML = dr[1] + " was indeed a mafia. <br>";
+      document.getElementById("detective-result").innerHTML = dr[1] + " was indeed a mafia as per detection result. <br>";
     } else {
-      document.getElementById("detective-result").innerHTML = dr[1] + " was not a mafia. <br>";
+      document.getElementById("detective-result").innerHTML = dr[1] + " was not a mafia as per detection result.<br>";
+    }
+    if(message.indexOf("#DISCUSSION")==0) {
+      document.getElementById("detective-result").innerHTML = "";
     }
   }
 
