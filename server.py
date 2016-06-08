@@ -19,11 +19,12 @@ class WebServerSocket:
         '''
         while True:
             data = cl.sock.recv(1024)
-            print(data)
+            # print(data)
             if data[0]==0x88:
                 self.close(cl)
                 break
-            if data[0]==0x09:pass
+            if data[0]==0x89:
+                print("PING frame sent")
             secondByte = data[1]
             lg_byte = secondByte & 127
             #Adjust for the location of the first byte of mask depending on whether extended payload length is used or not
@@ -39,7 +40,7 @@ class WebServerSocket:
             for i in range(indexFirstDataByte, len(data)):          # Iterate from the first byte of data till the end of it
                 decoded.append(data[i]^masks[(i-indexFirstMask)%4])
             with self.forward_q_lock:
-                print(decoded)
+                # print(decoded)
                 self.forward_q.append((cl, decoded.decode()))
 
     def __prepare_message(self, data):

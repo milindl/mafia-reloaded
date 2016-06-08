@@ -24,9 +24,29 @@ function dealMafiaMessage(e) {
     }
   }
   if(message.indexOf("#MAFIA_VOTE") == 0) {
-    console.log("Recvd vote");
-    ws.send("#VOTE_HELLO");
-    for(var i=4; i!=1000; i++) var j = Math.sqrt(1234.5623123); 
-    ws.send("#DONE_VOTING");
+    round="#vote";
+    var rboxes = document.getElementsByClassName("radio-for-player");
+    var endVote;
+    var sendVote = function(e){
+      var selected = document.player_names.selected_player.value;
+      ws.send("#VOTE:"+selected.substring("radio-for-".length));
+      timer(5, endVote, function(){});
+    };
+    endVote = function() {
+      for(var i=0; i!=rboxes.length; i++) {
+        rboxes[i].style.display = "none";
+        rboxes[i].removeEventListener("change", sendVote);
+      }
+      ws.send("#DONE_VOTING");
+    };
+
+
+    for(var i=0; i!=rboxes.length; i++) {
+      rboxes[i].style.display = "";
+      rboxes[i].addEventListener("change", sendVote);
+    }
+  }
+  if(message.indexOf("#VOTE:")==0) {
+    
   }
 }

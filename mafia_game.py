@@ -43,25 +43,35 @@ class MafiaGame:
     def mafia_round(self):
         self.wssock.send(self.mafias, "#MAFIA_VOTE")
         print("Sent.")
+        vote_state = self._vote_mechanism(self.mafias,self.wssock.client_list, self.mafias)
+        for key in vote_state:
+            print(str(key) + " : " + str(vote_state[key]))
+
+    def _vote_mechanism(self, voter_list, votee_list, send_to_list=None):
         breaking = 0
-        while breaking!=2:
-            time.sleep(0.5);
+        votee_str_dic = {str(v.name):v for v in votee_list}
+        vote_state = {}
+        while breaking!=len(voter_list):
+            time.sleep(0.5)      #TODO: NEEDS INVESTIGATION. Without a time.sleep, it fails periodically
             with self.wssock.forward_q_lock:
-                if len(self.wssock.forward_q)!=0:print(self.wssock.forward_q)
+                # if len(self.wssock.forward_q)!=0:print(self.wssock.forward_q)
                 for i in range(len(self.wssock.forward_q)):
                     cl,mes = self.wssock.forward_q.pop()
-                    for m in self.mafias:
-                        if (m,"#DONE_VOTING")==(cl,mes):
+                    for v in voter_list:
+                        if (v,"#DONE_VOTING")==(cl,mes):
                             breaking += 1
-                    if(mes[:len("#VOTE_")] == "#VOTE_"):
-                        print(cl.name + " voted for " + mes[len("#VOTE_"):])
+                        if(mes[:len("#VOTE:")] == "#VOTE:"):
+                            votee_key = mes[len("#VOTE:"):]
+                            vote_state[v] = votee_str_dic[votee_key]
+                            if send_to_list:
+                                self.wssock.send(send_to_list, "#VOTE:" + v.name + ":" + votee_key)
 
-        print("Recv")
 
+        return vote_state
 
     def play(self):
         self.type_round()
-        time.sleep(2)
+        # Stime.sleep(2)
         self.mafia_round()
 
 MafiaGame().play()

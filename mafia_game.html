@@ -7,7 +7,7 @@
 <body>
   <div id="player-panel">
     <span id="player-type"></span>
-    <form id="player-names" name="player-names">All Players:</form>
+    <form id="player-names" name="player_names">All Players:</form>
   </div>
   <script>
   // Deal with the socket connections
@@ -40,9 +40,9 @@
         player.type = "radio";
         player.value = "radio-for-" + players[i];
         player.id = "radio-for-" + players[i];
-        player.name = "selected-player";
+        player.name = "selected_player";
         var pLabel = document.createElement('label');
-        player.class = "radio-for-player";
+        player.className = "radio-for-player";
         document.getElementById("player-names").appendChild(document.createElement('br'));
         document.getElementById("player-names").appendChild(pLabel);
         pLabel.appendChild(player);
