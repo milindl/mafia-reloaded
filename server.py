@@ -25,7 +25,7 @@ class WebServerSocket:
                 self.close(cl)
                 break
             if data[0]==0x89:
-                print("PING frame sent")
+                print("PING frame sent")       #TODO need to handle this 
             secondByte = data[1]
             lg_byte = secondByte & 127
             #Adjust for the location of the first byte of mask depending on whether extended payload length is used or not
