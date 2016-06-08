@@ -60,11 +60,11 @@ class MafiaGame:
                     for v in voter_list:
                         if (v,"#DONE_VOTING")==(cl,mes):
                             breaking += 1
-                        if(mes[:len("#VOTE:")] == "#VOTE:"):
-                            votee_key = mes[len("#VOTE:"):]
-                            vote_state[v] = votee_str_dic[votee_key]
-                            if send_to_list:
-                                self.wssock.send(send_to_list, "#VOTE:" + v.name + ":" + votee_key)
+                    if(mes[:len("#VOTE:")] == "#VOTE:"):
+                        votee_key = mes[len("#VOTE:"):]
+                        vote_state[cl] = votee_str_dic[votee_key]
+                        if send_to_list:
+                            self.wssock.send(send_to_list, "#VOTE:" + cl.name + ":" + votee_key)
 
 
         return vote_state

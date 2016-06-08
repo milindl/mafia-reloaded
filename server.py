@@ -20,6 +20,7 @@ class WebServerSocket:
         while True:
             data = cl.sock.recv(1024)
             # print(data)
+            if(len(data)<2): continue
             if data[0]==0x88:
                 self.close(cl)
                 break
