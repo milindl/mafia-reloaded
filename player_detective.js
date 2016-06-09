@@ -26,6 +26,7 @@ function dealDetectiveMessage(e) {
     }
   }
   if(message.indexOf("#DETECTIVE_VOTE") == 0) {
+    document.getElementById("round-name").innerHTML = "Detective voting round is on <br>";
     setupVoting(7);
   }
 

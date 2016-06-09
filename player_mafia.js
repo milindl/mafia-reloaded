@@ -25,8 +25,9 @@ function dealMafiaMessage(e) {
     }
   }
   if(message.indexOf("#MAFIA_VOTE") == 0) {
+    document.getElementById("round-name").innerHTML = "Mafia voting round is on <br>";
     setupVoting(7);
   }
-  
+
 
 }

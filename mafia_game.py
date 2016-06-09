@@ -83,13 +83,15 @@ class MafiaGame:
             if votes_counter[key]>votes_counter[max_votes]:
                 max_votes = key
         votes_counter.pop(max_votes)
-        max_votes2 = self.wssock.client_list[0]
-        for key in votes_counter:
-            if votes_counter[key]>votes_counter[max_votes2]:
-                max_votes2 = key
-        print(max_votes.name)
-        print(max_votes2.name)
-        return max_votes,max_votes2
+        max_votes2 = None
+        try:
+            max_votes2 = self.wssock.client_list[0]
+            for key in votes_counter:
+                if votes_counter[key]>votes_counter[max_votes2]:
+                    max_votes2 = key
+        finally:
+            if max_votes2==None: max_votes2 = max_votes
+        return max_votes, max_votes2
 
     def discussion_round(self, max_votes, max_votes2):
         self.wssock.send(self.wssock.client_list,"#DISCUSSION:"+max_votes.name+","+max_votes2.name)
