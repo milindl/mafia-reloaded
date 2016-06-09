@@ -36,10 +36,9 @@ function dealDetectiveMessage(e) {
     } else {
       document.getElementById("detective-result").innerHTML = dr[1] + " was not a mafia as per detection result.<br>";
     }
-    if(message.indexOf("#DISCUSSION")==0) {
-      document.getElementById("detective-result").innerHTML = "";
-    }
   }
-
+  if(message.indexOf("#DISCUSSION")==0) {
+    document.getElementById("detective-result").innerHTML = "";
+  }
 
 }

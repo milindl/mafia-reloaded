@@ -108,6 +108,7 @@ class MafiaGame:
             if votes_counter[key]>votes_counter[max_votes]:
                 max_votes = key
         self.wssock.send(self.wssock.client_list, "#ELIMINATED:"+max_votes.name+":"+str(max_votes in self.mafias))
+        return max_votes
 
     def _vote_mechanism(self, voter_list, votee_list, send_to_list=None):
         breaking = 0
@@ -137,12 +138,25 @@ class MafiaGame:
     def play(self):
         self.type_round()
         time.sleep(2)
-        who_died = self.mafia_round()
-        self.detective_round()
-        #time for anonymous voting round!
-        self.wssock.send(self.wssock.client_list, "#KILLED:" + who_died.name)
-        max1, max2 = self.first_voting_round()
-        self.discussion_round(max1, max2)
-        self.second_voting_round()
+        while len(self.mafias)!=0 and len(self.victims)+len(self.detectives)>=len(self.mafias):
+            time.sleep(2)
+            who_died = self.mafia_round()
+            self.detective_round()
+            #time for anonymous voting round!
+            self.wssock.send(self.wssock.client_list, "#KILLED:" + who_died.name)
+            max1, max2 = self.first_voting_round()
+            self.discussion_round(max1, max2)
+            eliminated = self.second_voting_round()
+            time.sleep(2)
+            if who_died in self.mafias: self.mafias.remove(who_died)
+            if who_died in self.victims: self.victims.remove(who_died)
+            if who_died in self.detectives: self.detectives.remove(who_died)
+            if eliminated in self.mafias: self.mafias.remove(eliminated)
+            if eliminated in self.victims: self.victims.remove(eliminated)
+            if eliminated in self.detectives: self.detectives.remove(eliminated)
+        if(len(self.mafias)==0):
+            print("Mafias lose this game.")
+        else:
+            print("Citizens lose this game")
 
 MafiaGame().play()

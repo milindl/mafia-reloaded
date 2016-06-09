@@ -26,6 +26,7 @@
   };
   var round = "";
   var voteBank = {};
+  var stillAlive = true;
   function dealMessage(e) {
     console.log("dealMessage: " + e.data);
     var message = e.data.toString();
@@ -55,7 +56,8 @@
       }
     }
     if(message.indexOf("#KILLED:")==0) {
-      document.getElementById("who-died").innerHTML = message.split(":")[1] + " has been killed by the mafia. It's time to vote, get choosing!";
+      document.getElementById("who-died").innerHTML = message.split(":")[1] + " has been killed by the mafia. ";
+      stillAlive = (message.split(":")[1]!=usrname);
     }
     if(message.indexOf("#VOTE:")==0) {
       var ms = message.split(":");
@@ -89,7 +91,11 @@
       if(ms[2]=="True"){
         alert(ms[1]+ " has been eliminated. He/she was actually in the mafia")
       } else {
-        alert(ms[1]+ " has been eliminated. He/she was not actually in the mafia")        
+        alert(ms[1]+ " has been eliminated. He/she was not actually in the mafia")
+      }
+      if(ms[1]==usrname || stillAlive==false){
+        ws.close();
+        document.body.innerHTML = "You've been killed/eliminated. Better luck next time :(";
       }
     }
   }
