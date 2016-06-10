@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <style>
+    div {
+      margin:0px;
+      padding:0px;
+    }
+    div.mainsection {
+        position:fixed;
+        width:100%;
+        left:0px;
+        overflow:auto;
+    }
+    div.mainmiddle {
+      height:60%;
+      top:20%;
+    }
+    div.mainside {
+      left:0px;
+      height:20%;
+    }
+    div#lower{
+      border-top: 1px solid black;
+      bottom:0px;
+    }
+    div#upper {
+      border-bottom: 1px solid black;
+      top:0px;
+    }
+    div.sidesection {
+      position:absolute;;
+      width:50%;
+      height:0%;
+    }
+    div.leftside {
+      left:0px;
+    }
+    div.rightside {
+      right:0px;
+      text-align: right;
+    }
+    form {
+      margin:0px;
+      padding:0px;
+    }
+    form label {
+      width:100%;
+      padding-top:1em;
+      padding-bottom: 1em;
+      display:block;
+      margin:0px;
+    }
+    form input {
+      margin:0px;
+      padding:0px;
+      display:none;
+    }
+    form label.alter {
+      background-color: #ddd;
+    }
+    div#splash {
+      width:100%;
+      height: 60%;
+      position: fixed;
+      top:20%;
+      left:0px;
+      background-color: white;
+      display:none;
+    }
+    h1 {
+      width:100%;
+      height:100%;
+      text-align: center;
+    }
+    </style>
+    <script src="mafia_r.js">
+    </script>
+    <script>
+    function splash(text) {
+      var sscreen = document.getElementById("splash");
+      sscreen.innerHTML ="<h1>" + text + "</h1>";
+      sscreen.style.display = "block";
+      timer(3, function() {sscreen.style.display="none";}, function(e) {});
+    }
+    </script>
+  </head>
+  <body onload="splash('g');">
+    <div id = "voting-area" class="mainsection mainmiddle">
+      <form id="names" name="names">
+        <label class="name_label alter"><input type="radio" name="name" value="1">Name1</label>
+        <label class="name_label"><input type="radio" name="name" value="2">Name2</label>
+        <label class="name_label alter"><input type="radio" name="name" value="3">Name3</label>
+        <label class="name_label"><input type="radio" name="name" value="4">Name4</label>
+      </form>
+    </div>
+
+    <div id="upper" class="mainside mainsection">
+      <div id="username" class="leftside sidesection sidesection">Username</div>
+      <div id="status" class="rightside sidesection">167_user was killed. It is time to vote!</div>
+    </div>
+    <div id="lower" class="mainside mainsection">
+      <div id="team" class="leftside sidesection">
+        On your team: user0098, user0076, user0065
+      </div>
+      <div id="secret-message" class="rightside sidesection">
+        If you're a detective basically
+      </div>
+    </div>
+    <div id="splash">
+      <h1>Round: Vote</h1>
+    </div>
+  </body>
+</html>
