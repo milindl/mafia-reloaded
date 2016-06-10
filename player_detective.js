@@ -11,23 +11,23 @@ ws.send("#LOADED_DETECTIVE_JS");
   detectiveResult.id = "detective-result";
   document.getElementById("player-panel").appendChild(detectiveResult);
 }).call(window);
-
 var detectivePlayers = null;
 function dealDetectiveMessage(e) {
-  console.log("dealMafiaMessage: " + e.data);
   var message=e.data.toString();
   if(message.indexOf("#DETECTIVE_NAMES:") == 0){
     //Need to populate detective list
     detectivePlayers = message.substring("#DETECTIVE_NAMES:".length).split(",");
     for(var i=0; i!=detectivePlayers.length; i++) {
+      gs.teamNames.push(detectivePlayers[i]);
       var mplayer = document.createElement('li');
       mplayer.appendChild(document.createTextNode(detectivePlayers[i]));
       document.getElementById("player-names-detective").appendChild(mplayer);
     }
   }
   if(message.indexOf("#DETECTIVE_VOTE") == 0) {
+    gs.round = "#DETECTIVE_VOTE";
     document.getElementById("round-name").innerHTML = "Detective voting round is on <br>";
-    setupVoting(7);
+    setupVoting(15);
   }
 
   if(message.indexOf("#DETECTION_RESULT:") == 0) {

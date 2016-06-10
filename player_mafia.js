@@ -13,21 +13,21 @@ ws.send("#LOADED_MAFIA_JS");
 var mafiaPlayers = null;
 
 function dealMafiaMessage(e) {
-  console.log("dealMafiaMessage: " + e.data);
   var message = e.data.toString();
   if(message.indexOf("#MAFIA_NAMES:") == 0){
     //Need to populate mafia list
     mafiaPlayers = message.substring("#MAFIA_NAMES:".length).split(",");
     for(var i=0; i!=mafiaPlayers.length; i++) {
+      gs.teamNames.push(mafiaPlayers[i]);
       var mplayer = document.createElement('li');
       mplayer.appendChild(document.createTextNode(mafiaPlayers[i]));
       document.getElementById("player-names-mafia").appendChild(mplayer);
     }
   }
   if(message.indexOf("#MAFIA_VOTE") == 0) {
+    gs.round = "#MAFIA_VOTE";
     document.getElementById("round-name").innerHTML = "Mafia voting round is on <br>";
-    setupVoting(7);
+    setupVoting(15);
   }
-
 
 }

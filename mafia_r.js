@@ -59,3 +59,38 @@ function setupVoting(roundTime) {
   }
   timer(roundTime,endVote, function(){});
 }
+
+function GameState() {
+  this.username = "";
+  this.type = "";                         // Potential for an error?
+  this.names = {};
+  this.round = "";
+  this.voteState= {};
+  this.teamNames = [];
+}
+GameState.prototype.toString = function() {
+  var repr = "";
+  repr+="Username:" + this.username + "<br>";
+  repr+="Type: " + this.type + "<br>";
+  repr += "List of people: <br>";
+  var keys = Object.keys(this.names);
+  for(var i=0; i!=keys.length; i++) {
+    repr+=keys[i] + " : " + this.names[keys[i]] + "<br>";
+  }
+  repr+="Round: " + this.round + "<br>";
+  repr+="State of the vote: <br>";
+  keys =  Object.keys(this.voteState);
+  for(var i=0; i!=keys.length; i++) {
+    repr+=keys[i] + " votes for " + this.voteState[keys[i]] + "<br>";
+  }
+  if(this.type!="Victim"){
+    repr+="List of people belonging to the team: <br>";
+    for(var i=0; i!=this.teamNames.length; i++) {
+      repr+="" + this.teamNames[i] + "<br>";
+    }
+  }
+  return repr;
+};
+GameState.prototype.decorate = function() {
+  return "will present well formatted HTML once done.";
+};
