@@ -1,6 +1,18 @@
 <html>
 <head>
   <title>Mafia Mockup</title>
+  <script type="text/javascript" src="mafia_r.js">
+  </script>
+  <script>
+    // Init a GameState object and put it to work
+    var gs = new GameState();
+    gs.username="uname";
+    gs.type="Mafia";
+    gs.names = {"uname":true, "slw":true, "tr":true, "flak":true, "heron":true, "one_leg":true};
+    gs.round = "#MAFIA_VOTE";
+    gs.voteState = {"uname" : "tr", "flak":"tr"};
+    gs.teamNames = ["uname", "flak"];
+  </script>
   <style type="text/css">
   body {
     font-family: Verdana, sans-serif;
@@ -35,17 +47,42 @@
   div#voting-screen form label.alter {
     background-color: #ddd;
   }
+  div#voting-screen form label span {
+    float:right;
+    color:red;
+    font-style: italic;
+    font-weight: bold;
+  }
   div#voting-screen form label input {
     margin:0px;
     display: none;
   }
+  div#splash {
+    position: fixed;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background-color: white;
+    display: none;
+  }
+  div#splash h1 {
+    position: fixed;
+    top:40%;
+    width:100%;
+    text-align: center;
+  }
   </style>
 </head>
-<body>
+<body onload = "gs.decorate('status')">
+  <div id="splash">
+    <h1>Splash</h1>
+  </div>
   <div id="upper" class="panel">
     <table>
       <tr id="username"><td class="type">Username:</td><td> uname</td></tr>
       <tr id="status"><td class="type">Status:</td><td>Some user was killed. Time to vote.</td></tr>
+      <tr id="type"><td class="type">Type:</td><td></td></tr>
       <tr id="team"><td class="type">Team:</td><td> On your team: 1, 2 and 3</td></tr>
       <tr id="detection-result"><td class="type">Detection Result:</td><td>Only if you're a detective</td></tr>
     </table>
@@ -53,14 +90,9 @@
 
   <div id="voting-screen" class="panel">
     <form id="voting-form" name="voting_form">
-      <label><input type="radio" name="players">Player 1</label>
-      <label class="alter"><input type="radio" name="players">Player 2</label>
-      <label><input type="radio" name="players">Player 3</label>
-      <label class="alter"><input type="radio" name="players">Player 4</label>
-      <label><input type="radio" name="players">Player 5</label>
-      <label class="alter"><input type="radio" name="players">Player 6</label>
-      <label><input type="radio" name="players">Player 7</label>
-      <label class="alter"><input type="radio" name="players">Player 8</label>
+      <!-- Keep one as sample, this is what they should look like when dynamically generated
+        <label><input type="radio" name="players" id="player1" value="player1">Player 1<span id="player1-voters"></label>
+      -->
     </form>
   </div>
 </body>

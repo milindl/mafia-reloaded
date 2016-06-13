@@ -91,6 +91,55 @@ GameState.prototype.toString = function() {
   }
   return repr;
 };
-GameState.prototype.decorate = function() {
-  return "will present well formatted HTML once done.";
-};
+GameState.prototype.decorate = function(status) {
+  //This has the task of filling up the template from the GameState Object
+  document.getElementById("username").lastChild.innerHTML = this.username;
+  document.getElementById("type").lastChild.innerHTML = this.type;
+  if(this.type=="Victim") {
+    document.getElementById("team").style.display = "none";
+  }
+  else {
+    var place = document.getElementById("team").lastChild;
+    place.innerHTML = "";
+    for(var i=0; i!=this.teamNames.length; i++) {
+      place.innerHTML += "<br>" + this.teamNames[i];
+    }
+  }
+  if(this.type!="Detective") {
+    document.getElementById("detection-result").style.display="none";
+  }
+  document.getElementById("status").lastChild.innerHTML = status;
+
+  //Now to add the names and the entire shebang if it is a voting round.
+  if(this.round == "#MAFIA_VOTE" || this.round == "#DETECTIVE_VOTE" || this.round == "#VOTE_ANON" || this.round == "#VOTE_OPEN") {
+    var form = document.getElementById("voting-form");
+    form.innerHTML="";
+    var nameKeys = Object.keys(this.names);
+    for(var i=0; i!=nameKeys.length; i++) {
+      if(this.names[nameKeys[i]]==false) continue;
+      var radioButton = document.createElement("input");
+      var label = document.createElement("label");
+      var voteSpan = document.createElement("span");
+      radioButton.name="players";
+      radioButton.type="radio";
+      radioButton.value = "" + nameKeys[i];
+      radioButton.id = "players-"+nameKeys[i];
+      voteSpan.id = "others-"+nameKeys[i];
+      if(i%2==0) label.className = "alter";
+      label.appendChild(radioButton);
+      label.appendChild(document.createTextNode(nameKeys[i]));
+      label.appendChild(voteSpan);
+      form.appendChild(label);
+      //TODO: Add functionality as well as decor
+
+    }
+    var voteKeys = Object.keys(this.voteState);
+    for(var i=0; i!=voteKeys.length; i++) {
+      var voter = voteKeys[i];
+      var votee = this.voteState[voteKeys[i]];
+      var voteSpan = document.getElementById("others-"+votee);
+      if(voteSpan) voteSpan.innerHTML+=" " + voter + " ";
+    }
+  }
+
+ };
