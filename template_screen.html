@@ -2,6 +2,9 @@
 <head>
   <title>Mafia Mockup</title>
   <style type="text/css">
+  body {
+    font-family: Verdana, sans-serif;
+  }
   div#upper {
     display: block;;
     margin: 0px;
@@ -11,7 +14,12 @@
     overflow:auto;
     padding-bottom: 1em;
   }
-
+  div#upper table tr td {
+    padding:5px;
+  }
+  div#upper table tr td.type {
+    font-weight: bold;
+  }
   div#voting-screen {
     margin: 0rem 0 0 0;
   }
@@ -35,10 +43,12 @@
 </head>
 <body>
   <div id="upper" class="panel">
-    <div id="username">Username: uname</div>
-    <div id="status">Status: Some user was killed. Time to vote.</div>
-    <div id="team">Team: On your team: 1, 2 and 3</div>
-    <div id="detection-result">Detection Result:Only if you're a detective</div>
+    <table>
+      <tr id="username"><td class="type">Username:</td><td> uname</td></tr>
+      <tr id="status"><td class="type">Status:</td><td>Some user was killed. Time to vote.</td></tr>
+      <tr id="team"><td class="type">Team:</td><td> On your team: 1, 2 and 3</td></tr>
+      <tr id="detection-result"><td class="type">Detection Result:</td><td>Only if you're a detective</td></tr>
+    </table>
   </div>
 
   <div id="voting-screen" class="panel">
