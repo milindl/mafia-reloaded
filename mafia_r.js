@@ -115,7 +115,7 @@ GameState.prototype.initiate = function () {
   }
   if(this.type!="Detective") {
     document.getElementById("detection-result").style.display="none";
-  }
+  } 
 };
 GameState.prototype.populateForm = function () {
   this.sanitizeForm();

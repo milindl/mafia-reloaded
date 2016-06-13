@@ -23,13 +23,13 @@ function dealDetectiveMessage(e) {
   if(message.indexOf("#DETECTION_RESULT:") == 0) {
     var dr = message.split(":");
     if(dr[2]=="True"){
-      document.getElementById("detective-result").innerHTML = dr[1] + " was indeed a mafia as per detection result. <br>";
+      document.getElementById("detection-result").lastChild.innerHTML = dr[1] + " was indeed a mafia as per detection result. <br>";
     } else {
-      document.getElementById("detective-result").innerHTML = dr[1] + " was not a mafia as per detection result.<br>";
+      document.getElementById("detection-result").lastChild.innerHTML = dr[1] + " was not a mafia as per detection result.<br>";
     }
   }
   if(message.indexOf("#DISCUSSION")==0) {
-    document.getElementById("detective-result").innerHTML = "";
+    document.getElementById("detection-result").lastChild.innerHTML = "[unavailable]";
   }
 
 }

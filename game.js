@@ -18,7 +18,10 @@ function dealMessage(e) {
     gs.type = type;
     if(type=="Mafia") loadScript("player_mafia.js");
     if(type=="Detective") loadScript("player_detective.js");
-    if(type=="Victim") gs.initiate();
+    if(type=="Victim") {
+      gs.initiate();
+      gs.decorate("It's time to start a game of MAFIA");
+    }
     return;
   }
   if(message.indexOf("#NAMES:") == 0) {
@@ -41,7 +44,6 @@ function dealMessage(e) {
   }
   if(message.indexOf("#VOTE_ANON")==0) {
     gs.round = "#VOTE_ANON";
-    document.getElementById("round-name").innerHTML = "Anonymous voting round is on <br>";
     setupVoting(12);
   }
   if(message.indexOf("#DISCUSSION:") == 0) {
