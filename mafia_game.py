@@ -11,16 +11,19 @@ class MafiaGame:
         self.wssock = WebServerSocket()
         threading.Thread(target = self.wssock.start, daemon=True).start()
 
-    def type_round(self):
+    def type_round(self, num):
         ''' Waits till all users have joined and then assigns them type and sends namelists'''
-        while len(self.wssock.client_list)!=6:   # Wait till we're done with connections
+        while len(self.wssock.client_list)!=num:   # Wait till we're done with connections
             pass
         self.wssock.send(self.wssock.client_list, "#NAMES:" + ",".join([str(cl) for cl in self.wssock.client_list]))
 
+        #Assign numbers - of mafia, of detectives
+        number_maf = num//3
+        number_det = min(num//3, 3)
         # TODO: Make this assignment random, not like it is now.
-        self.victims = self.wssock.client_list[:2]
-        self.mafias = self.wssock.client_list[2:4]
-        self.detectives = self.wssock.client_list[4:]
+        self.mafias = self.wssock.client_list[:number_maf]
+        self.detectives = self.wssock.client_list[number_maf:number_det+number_maf]
+        self.victims = self.wssock.client_list[number_det+number_maf:]
         self.wssock.send(self.victims, "#TYPE:Victim")
         self.wssock.send(self.mafias, "#TYPE:Mafia")
         # Now wait for all mafia to acknowledge
@@ -137,8 +140,8 @@ class MafiaGame:
 
 
 
-    def play(self):
-        self.type_round()
+    def play(self, num=6):
+        self.type_round(num)
         time.sleep(2)
         while len(self.mafias)!=0 and len(self.victims)+len(self.detectives)>=len(self.mafias):
             time.sleep(2)
@@ -161,4 +164,8 @@ class MafiaGame:
         else:
             print("Citizens lose this game")
 
-MafiaGame().play()
+n = 6
+import sys
+if(len(sys.argv)==2):
+    n = int(sys.argv[1])
+MafiaGame().play(n)
