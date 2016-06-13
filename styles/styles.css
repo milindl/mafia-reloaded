@@ -1,0 +1,58 @@
+body {
+  font-family: Verdana, sans-serif;
+}
+div#upper {
+  display: block;;
+  margin: 0px;
+  padding:0px;
+  border-bottom: 1px solid black;
+  background-color: white;
+  overflow:auto;
+  padding-bottom: 1em;
+}
+div#upper table tr td {
+  padding:5px;
+}
+div#upper table tr td.type {
+  font-weight: bold;
+}
+div#voting-screen {
+  margin: 0rem 0 0 0;
+}
+div#voting-screen form label {
+  display: block;
+  padding-top: 1.7em;
+  padding-bottom: 1.7em;
+  margin:0px;
+}
+div#voting-screen form {
+  margin:0px;
+}
+div#voting-screen form label.alter {
+  background-color: #ddd;
+}
+div#voting-screen form label span {
+  float:right;
+  color:red;
+  font-style: italic;
+  font-weight: bold;
+}
+div#voting-screen form label input {
+  margin:0px;
+  display: none;
+}
+div#splash {
+  position: fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background-color: white;
+  display: none;
+}
+div#splash h1 {
+  position: fixed;
+  top:40%;
+  width:100%;
+  text-align: center;
+}

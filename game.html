@@ -1,0 +1,33 @@
+<html>
+<head>
+  <title>Mafia</title>
+  <script type="text/javascript" src="mafia_r.js">
+  </script>
+  <link href="/styles/styles.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+  <div id="splash">
+    <h1>Splash</h1>
+  </div>
+  <div id="upper" class="panel">
+    <table>
+      <tr id="username"><td class="type">Username:</td><td> uname</td></tr>
+      <tr id="status"><td class="type">Status:</td><td>Some user was killed. Time to vote.</td></tr>
+      <tr id="type"><td class="type">Type:</td><td></td></tr>
+      <tr id="team"><td class="type">Team:</td><td> On your team: 1, 2 and 3</td></tr>
+      <tr id="detection-result"><td class="type">Detection Result:</td><td>Only if you're a detective</td></tr>
+    </table>
+  </div>
+
+  <div id="voting-screen" class="panel">
+    <form id="voting-form" name="voting_form">
+      <!-- Keep one as sample, this is what they should look like when dynamically generated
+        <label><input type="radio" name="players" id="player1" value="player1">Player 1<span id="player1-voters"></label>
+      -->
+    </form>
+  </div>
+
+  <script src="game.js">
+  </script>
+</body>
+</html>

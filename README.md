@@ -1,3 +1,5 @@
+_NB: The README might be a little outdated as I've updated the project. However, I will update the README as soon as it is possible. I am not using a dev branch since who cares, right?_
+
 #MAFIA reloaded
 
 Mafia is a common game played by people when they are bored and in large groups. Mostly, things are done by choosing a "God" and then closing your eyes when "God" says so. This often leads to semi-open eyes and so on. This is designed to complement the actual game and remove the need for a "God" in the game.

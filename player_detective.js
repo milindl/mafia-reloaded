@@ -2,16 +2,7 @@
 ws.addEventListener("message", dealDetectiveMessage);
 ws.send("#LOADED_DETECTIVE_JS");
 //Certain anonymous functions to make spaces in the player-panel
-(function() {
-  var detectiveList = document.createElement("ul");
-  detectiveList.appendChild(document.createTextNode("Your Detective brothers are:"))
-  detectiveList.id = "player-names-detective";
-  document.getElementById("player-type").appendChild(detectiveList);
-  var detectiveResult = document.createElement("span");
-  detectiveResult.id = "detective-result";
-  document.getElementById("player-panel").appendChild(detectiveResult);
-}).call(window);
-var detectivePlayers = null;
+var detectivePlayers;
 function dealDetectiveMessage(e) {
   var message=e.data.toString();
   if(message.indexOf("#DETECTIVE_NAMES:") == 0){
@@ -19,15 +10,14 @@ function dealDetectiveMessage(e) {
     detectivePlayers = message.substring("#DETECTIVE_NAMES:".length).split(",");
     for(var i=0; i!=detectivePlayers.length; i++) {
       gs.teamNames.push(detectivePlayers[i]);
-      var mplayer = document.createElement('li');
-      mplayer.appendChild(document.createTextNode(detectivePlayers[i]));
-      document.getElementById("player-names-detective").appendChild(mplayer);
     }
+    gs.initiate();
+    gs.decorate("Nice, you're a detective");
   }
   if(message.indexOf("#DETECTIVE_VOTE") == 0) {
+    gs.decorate("It's the Detective Vote");
     gs.round = "#DETECTIVE_VOTE";
-    document.getElementById("round-name").innerHTML = "Detective voting round is on <br>";
-    setupVoting(15);
+    setupVoting(15, gs);
   }
 
   if(message.indexOf("#DETECTION_RESULT:") == 0) {

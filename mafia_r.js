@@ -32,30 +32,38 @@ function voteBankString(voteBank) {
   return st;
 }
 
-function setupVoting(roundTime) {
-  round="#vote";
-  document.getElementById("voting-for").innerHTML = "";
-  voteBank = {};
-  var rboxes = document.getElementsByClassName("radio-for-player");
+function setupVoting(roundTime, gameState) {
+  gameState.voteState = {};
+  gameState.populateForm();
+  //TODO: It makes me queasy to have to touch the HTML code OUTSIDE the decorate function - definite need to refactor this bit. It's frequently used, too
+  var radioButtons = document.getElementsByClassName("players");
+  var labels = document.getElementsByClassName("players-label");
   var endVote;
   var sendVote = function(e){
-    var selected = document.player_names.selected_player.value;
-    ws.send("#VOTE:"+selected.substring("radio-for-".length));
+    var selected = false;
+    for(var i=0; i!=radioButtons.length; i++) {
+      if(radioButtons[i].checked==true) {
+        selected = radioButtons[i].value;
+        ws.send("#VOTE:"+selected);
+        console.log("You've clicked on " + selected);
+        break;
+      }
+    }
+
   };
   endVote = function() {
 
-    for(var i=0; i!=rboxes.length; i++) {
-      rboxes[i].style.display = "none";
-      rboxes[i].checked = false ;
-      rboxes[i].removeEventListener("change", sendVote);
+    for(var i=0; i!=radioButtons.length; i++) {
+      radioButtons[i].removeEventListener("change", sendVote);
+      radioButtons[i].checked = false ;
     }
+    gameState.sanitizeForm();
     ws.send("#DONE_VOTING");
   };
 
 
-  for(var i=0; i!=rboxes.length; i++) {
-    rboxes[i].style.display = "";
-    rboxes[i].addEventListener("change", sendVote);
+  for(var i=0; i!=radioButtons.length; i++) {
+    radioButtons[i].addEventListener("change", sendVote);
   }
   timer(roundTime,endVote, function(){});
 }
@@ -91,8 +99,8 @@ GameState.prototype.toString = function() {
   }
   return repr;
 };
-GameState.prototype.decorate = function(status) {
-  //This has the task of filling up the template from the GameState Object
+GameState.prototype.initiate = function () {
+  //Initiate with username, type, team, detection-result
   document.getElementById("username").lastChild.innerHTML = this.username;
   document.getElementById("type").lastChild.innerHTML = this.type;
   if(this.type=="Victim") {
@@ -108,32 +116,49 @@ GameState.prototype.decorate = function(status) {
   if(this.type!="Detective") {
     document.getElementById("detection-result").style.display="none";
   }
-  document.getElementById("status").lastChild.innerHTML = status;
-
+};
+GameState.prototype.populateForm = function () {
+  this.sanitizeForm();
+  var form = document.getElementById("voting-form");
+  var nameKeys = Object.keys(this.names);
+  for(var i=0; i!=nameKeys.length; i++) {
+    if(this.names[nameKeys[i]]==false) continue;
+    var radioButton = document.createElement("input");
+    var label = document.createElement("label");
+    var voteSpan = document.createElement("span");
+    radioButton.name="players";
+    radioButton.type="radio";
+    radioButton.className="players";
+    radioButton.value = "" + nameKeys[i];
+    radioButton.id = "players-"+nameKeys[i];
+    voteSpan.id = "others-"+nameKeys[i];
+    if(i%2==0) label.className = "alter ";
+    label.className += "players-label"
+    label.appendChild(radioButton);
+    label.appendChild(document.createTextNode(nameKeys[i]));
+    label.appendChild(voteSpan);
+    form.appendChild(label);
+    //TODO: Add functionality as well as decor
+  }
+};
+GameState.prototype.sanitizeForm = function () {
+  document.getElementById("voting-form").innerHTML="";
+};
+GameState.prototype.decorate = function(status) {
+  //This has the task of filling up the template from the GameState Object
+  if(status!="") {
+    document.getElementById("status").lastChild.innerHTML = status;
+  }
   //Now to add the names and the entire shebang if it is a voting round.
   if(this.round == "#MAFIA_VOTE" || this.round == "#DETECTIVE_VOTE" || this.round == "#VOTE_ANON" || this.round == "#VOTE_OPEN") {
-    var form = document.getElementById("voting-form");
-    form.innerHTML="";
-    var nameKeys = Object.keys(this.names);
-    for(var i=0; i!=nameKeys.length; i++) {
-      if(this.names[nameKeys[i]]==false) continue;
-      var radioButton = document.createElement("input");
-      var label = document.createElement("label");
-      var voteSpan = document.createElement("span");
-      radioButton.name="players";
-      radioButton.type="radio";
-      radioButton.value = "" + nameKeys[i];
-      radioButton.id = "players-"+nameKeys[i];
-      voteSpan.id = "others-"+nameKeys[i];
-      if(i%2==0) label.className = "alter";
-      label.appendChild(radioButton);
-      label.appendChild(document.createTextNode(nameKeys[i]));
-      label.appendChild(voteSpan);
-      form.appendChild(label);
-      //TODO: Add functionality as well as decor
-
-    }
     var voteKeys = Object.keys(this.voteState);
+    var nameKeys = Object.keys(this.names);
+    //Need to clear the voteSpans
+
+    for(var i=0; i!=nameKeys.length; i++) {
+      if(this.names[nameKeys[i]] == false) continue;
+      document.getElementById("others-"+nameKeys[i]).innerHTML = "";
+    }
     for(var i=0; i!=voteKeys.length; i++) {
       var voter = voteKeys[i];
       var votee = this.voteState[voteKeys[i]];
@@ -141,5 +166,4 @@ GameState.prototype.decorate = function(status) {
       if(voteSpan) voteSpan.innerHTML+=" " + voter + " ";
     }
   }
-
- };
+};
