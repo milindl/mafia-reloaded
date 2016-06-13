@@ -45,6 +45,7 @@ function setupVoting(roundTime, gameState) {
       if(radioButtons[i].checked==true) {
         selected = radioButtons[i].value;
         ws.send("#VOTE:"+selected);
+        if(gameState.round=="#VOTE_ANON") gameState.decorate("");
         console.log("You've clicked on " + selected);
         break;
       }
@@ -115,7 +116,7 @@ GameState.prototype.initiate = function () {
   }
   if(this.type!="Detective") {
     document.getElementById("detection-result").style.display="none";
-  } 
+  }
 };
 GameState.prototype.populateForm = function () {
   this.sanitizeForm();
@@ -150,20 +151,32 @@ GameState.prototype.decorate = function(status) {
     document.getElementById("status").lastChild.innerHTML = status;
   }
   //Now to add the names and the entire shebang if it is a voting round.
-  if(this.round == "#MAFIA_VOTE" || this.round == "#DETECTIVE_VOTE" || this.round == "#VOTE_ANON" || this.round == "#VOTE_OPEN") {
+  if(this.round == "#MAFIA_VOTE" || this.round == "#DETECTIVE_VOTE" || this.round == "#VOTE_OPEN") {
     var voteKeys = Object.keys(this.voteState);
     var nameKeys = Object.keys(this.names);
     //Need to clear the voteSpans
 
     for(var i=0; i!=nameKeys.length; i++) {
       if(this.names[nameKeys[i]] == false) continue;
+
+      console.log("Trying for.... " + nameKeys[i])
       document.getElementById("others-"+nameKeys[i]).innerHTML = "";
+
     }
     for(var i=0; i!=voteKeys.length; i++) {
       var voter = voteKeys[i];
       var votee = this.voteState[voteKeys[i]];
       var voteSpan = document.getElementById("others-"+votee);
       if(voteSpan) voteSpan.innerHTML+=" " + voter + " ";
+    }
+  }
+  if(this.round == "#VOTE_ANON") {
+    var radioButtons = document.getElementsByClassName("players");
+    for(var i=0; i!=radioButtons.length; i++) {
+      if(radioButtons[i].checked==true) {
+        document.getElementById("others-" + radioButtons[i].value).innerHTML = "You";
+        break;
+      }
     }
   }
 };

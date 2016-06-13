@@ -44,7 +44,7 @@ function dealMessage(e) {
   }
   if(message.indexOf("#VOTE_ANON")==0) {
     gs.round = "#VOTE_ANON";
-    setupVoting(12);
+    setupVoting(15, gs);
   }
   if(message.indexOf("#DISCUSSION:") == 0) {
     gs.round = "#DISCUSSION";
