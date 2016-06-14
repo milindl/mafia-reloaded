@@ -52,10 +52,8 @@ class MafiaGame:
         for key in vote_state:
             print(str(key) + " : " + str(vote_state[key]))
             votes_counter[vote_state[key]]+=1
-        max_votes = self.wssock.client_list[0]
-        for key in votes_counter:
-            if votes_counter[key]>votes_counter[max_votes]:
-                max_votes = key
+
+        max_votes = sorted(votes_counter, key=votes_counter.get, reverse=True)[0]
         return (max_votes)
 
     def detective_round(self):
@@ -66,10 +64,8 @@ class MafiaGame:
         for key in vote_state:
             print(str(key) + " : " + str(vote_state[key]))
             votes_counter[vote_state[key]]+=1
-        max_votes = self.wssock.client_list[0]
-        for key in votes_counter:
-            if votes_counter[key]>votes_counter[max_votes]:
-                max_votes = key
+
+        max_votes = sorted(votes_counter, key=votes_counter.get, reverse=True)[0]
         self.wssock.send(self.detectives, "#DETECTION_RESULT:"+max_votes.name+":"+str(max_votes in self.mafias))
 
     def first_voting_round(self):
@@ -80,22 +76,10 @@ class MafiaGame:
         for key in vote_state:
             print(str(key) + " : " + str(vote_state[key]))
             votes_counter[vote_state[key]]+=1
-        max_votes = self.wssock.client_list[0]
-        #REAL GODDAMN UGLY CODE FOLLOWS MOVE WITH CAUTION
-        #TODO MAJOR NEED TO REFACTOR
-        for key in votes_counter:
-            if votes_counter[key]>votes_counter[max_votes]:
-                max_votes = key
-        votes_counter.pop(max_votes)
-        max_votes2 = None
-        try:
-            max_votes2 = self.wssock.client_list[0]
-            for key in votes_counter:
-                if votes_counter[key]>votes_counter[max_votes2]:
-                    max_votes2 = key
-        finally:
-            if max_votes2==None: max_votes2 = max_votes
-        return max_votes, max_votes2
+        #I need to sort votes_counter by keys, so it's best to finalize it as a list. The question is, how should I sort?
+        max_votes = sorted(votes_counter, key=votes_counter.get, reverse=True)
+        if(len(max_votes)==1): return max_votes[0],max_votes[0]
+        return max_votes[0], max_votes[1];
 
     def discussion_round(self, max_votes, max_votes2):
         self.wssock.send(self.wssock.client_list,"#DISCUSSION:"+max_votes.name+","+max_votes2.name)
@@ -109,10 +93,8 @@ class MafiaGame:
         for key in vote_state:
             print(str(key) + " : " + str(vote_state[key]))
             votes_counter[vote_state[key]]+=1
-        max_votes = self.wssock.client_list[0]
-        for key in votes_counter:
-            if votes_counter[key]>votes_counter[max_votes]:
-                max_votes = key
+
+        max_votes = sorted(votes_counter, key=votes_counter.get, reverse=True)[0]
         self.wssock.send(self.wssock.client_list, "#ELIMINATED:"+max_votes.name+":"+str(max_votes in self.mafias))
         return max_votes
 
