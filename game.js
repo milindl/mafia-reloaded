@@ -63,24 +63,23 @@ function dealMessage(e) {
     // document.getElementById("discussion-round-done").addEventListener("click",discussionRoundHandler);
   }
 
-  if(message.indexOf("#VOTE_OPEN")==0) {
+  if(message.indexOf("#VOTE_OPEN") == 0) {
+    gs.decorate("It's the open vote.");
     gs.round = "#VOTE_OPEN";
-    document.getElementById("round-name").innerHTML = "Open voting round is on <br>";
-    setupVoting(15);
+    setupVoting(15, gs);
   }
 
+
   if(message.indexOf("#ELIMINATED:")==0) {
-    var ms = message.split(":");
-    if(ms[2]=="True"){
-      document.body.innerHTML+=(ms[1]+ " has been eliminated. He/she was actually in the mafia");
-    } else {
-      document.body.innerHTML+=(ms[1]+ " has been eliminated. He/she was not actually in the mafia");
-    }
-    document.getElementById("radio-for-"+ms[1]).style.visibility = 'hidden';
-    gs.names[ms[1]] = false;
-    if(ms[1]==usrname || stillAlive==false){
-      ws.close();
-      document.body.innerHTML = "You've been killed/eliminated. Better luck next time :(";
-    }
+    // var ms = message.split(":");
+    // gs.names[ms[1]] = false;
+    // if(ms[1]==gs.username) {
+    //   gs.splash("You've been eliminated in this round. Sorry for that :(", 0, function() {document.body.style.display = "";});
+    //   ws.close();
+    //   return;
+    // }
+    // var tf = (ms[2]=="True")?"":"not";
+    // gs.splash(ms[1] + " has been eliminated. He was " + tf + " a mafia.", 2, function(){});
+
   }
 }
