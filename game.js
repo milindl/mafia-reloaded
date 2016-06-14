@@ -48,17 +48,19 @@ function dealMessage(e) {
   }
   if(message.indexOf("#DISCUSSION:") == 0) {
     gs.round = "#DISCUSSION";
-    document.getElementById("round-name").innerHTML = "Discussion round is on <br>";
     var maxVotes = message.split(":")[1].split(",");
-    document.getElementById("discussion-round").style.display="";
-    document.getElementById("discussion-round-announcement").innerHTML = maxVotes[0] + " and " + maxVotes[1] + " are under the highest suspicion. They get to speak first, then everyone speaks. Press the button after you're done!";
-    var discussionRoundHandler = function(e) {
-      document.getElementById("discussion-round-announcement").innerHTML = "";
-      document.getElementById("discussion-round").style.display="none";
-      ws.send("#DONE_DISCUSSION");
-      document.getElementById("discussion-round-done").removeEventListener("click",discussionRoundHandler);
-    }
-    document.getElementById("discussion-round-done").addEventListener("click",discussionRoundHandler);
+    var mes = "It's time to discuss. " + maxVotes[0] + " and " + maxVotes[1] + " are under the most suspicion. They speak first, then press the button when you've spoken to your satisfaction"
+    gs.splash(mes,0, function() {ws.send("#DONE_DISCUSSION");});
+    // document.getElementById("round-name").innerHTML = "Discussion round is on <br>";
+    // document.getElementById("discussion-round").style.display="";
+    // document.getElementById("discussion-round-announcement").innerHTML = maxVotes[0] + " and " + maxVotes[1] + " are under the highest suspicion. They get to speak first, then everyone speaks. Press the button after you're done!";
+    // var discussionRoundHandler = function(e) {
+    //   document.getElementById("discussion-round-announcement").innerHTML = "";
+    //   document.getElementById("discussion-round").style.display="none";
+    //   ws.send("#DONE_DISCUSSION");
+    //   document.getElementById("discussion-round-done").removeEventListener("click",discussionRoundHandler);
+    // }
+    // document.getElementById("discussion-round-done").addEventListener("click",discussionRoundHandler);
   }
 
   if(message.indexOf("#VOTE_OPEN")==0) {

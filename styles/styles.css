@@ -51,8 +51,20 @@ div#splash {
   display: none;
 }
 div#splash h1 {
-  position: fixed;
-  top:40%;
-  width:100%;
+  margin:10% auto;
+  width:90%;
   text-align: center;
+}
+div#splash div {
+  font-size: 1.2em;
+  margin: 12.5% auto;
+  width:15%;
+  padding:20px;
+  text-align: center;
+  border:1px solid black;
+}
+div#splash div:hover {
+  text-align: center;
+  color:white;
+  background-color: black;
 }

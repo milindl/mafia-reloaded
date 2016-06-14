@@ -175,8 +175,32 @@ GameState.prototype.decorate = function(status) {
     for(var i=0; i!=radioButtons.length; i++) {
       if(radioButtons[i].checked==true) {
         document.getElementById("others-" + radioButtons[i].value).innerHTML = "You";
-        break;
+      } else {
+        document.getElementById("others-" + radioButtons[i].value).innerHTML = "";        
       }
     }
   }
+};
+GameState.prototype.splash = function (text, duration, callback) {
+  var sscreen = document.getElementById("splash");
+  sscreen.innerHTML = "";
+  var h1 = document.createElement("h1");
+  h1.appendChild(document.createTextNode(text));
+  sscreen.appendChild(h1);
+  if(duration == 0) {
+    var button = document.createElement("div");
+    button.id = "done-button";
+    button.appendChild(document.createTextNode("Done"));
+    button.onclick = function() {
+      sscreen.style.display = "none";
+      callback.call(window);
+    };
+    sscreen.appendChild(button);
+  } else {
+    timer(duration, function() {
+      sscreen.style.display = "none";
+      callback.call(window);
+    }, function(s){});
+  }
+  sscreen.style.display = "block";
 };
