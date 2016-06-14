@@ -20,6 +20,7 @@ function dealMafiaMessage(e) {
   if(message.indexOf("#MAFIA_VOTE") == 0) {
     gs.round = "#MAFIA_VOTE";
     console.log("initiate mafia vote...")
+    gs.splash("MAFIA Voting Round", 2, function(){});
     setupVoting(15, gs);
     gs.decorate("It's the MAFIA Vote!");
   }

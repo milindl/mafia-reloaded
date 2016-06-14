@@ -35,6 +35,7 @@ function dealMessage(e) {
     var ms = message.split(":")[1];
     gs.names[ms] = false;
     gs.decorate(ms + " has died :(");
+    gs.splash(ms + " is dead.", 2, function() {});
   }
   if(message.indexOf("#VOTE:")==0) {
     var ms = message.split(":");
@@ -45,6 +46,7 @@ function dealMessage(e) {
   }
   if(message.indexOf("#VOTE_ANON")==0) {
     gs.round = "#VOTE_ANON";
+    gs.splash("Anonymous Voting Round", 2, function() {});
     setupVoting(15, gs);
   }
   if(message.indexOf("#DISCUSSION:") == 0) {
@@ -65,6 +67,7 @@ function dealMessage(e) {
   }
   if(message.indexOf("#VOTE_OPEN") == 0) {
     gs.decorate("It's the open vote.");
+    gs.splash("Open Voting Round", 2, function() {});
     gs.round = "#VOTE_OPEN";
     setupVoting(15, gs);
   }
@@ -87,11 +90,13 @@ function dealMessage(e) {
   }
   if(message.indexOf("#WIN")==0) {
     var winner = message.split(":")[1];
-    if(winner=="CITIZEN") {
-      ws.close();
-      gs.splash("The citizens have won a glorious victory!", 0, function() {});
-    } else {
-      gs.splash("The mafia has overpowered the citizens", 0, function() {});       
+    console.log(winner);
+    if(message=="#WIN:CITIZEN") {
+      gs.splash("The citizens have won a glorious victory!", 30, function() {});
     }
+    else {
+      gs.splash("The mafia has overpowered the citizens", 30, function() {});
+    }
+    ws.close();
   }
 }

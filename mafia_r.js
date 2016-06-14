@@ -68,9 +68,13 @@ function setupVoting(roundTime, gameState) {
   for(var i=0; i!=radioButtons.length; i++) {
     radioButtons[i].addEventListener("change", sendVote);
   }
-  timer(roundTime,endVote, function(){});
+  timer(roundTime,endVote, function(s) {timerDisplay(roundTime, s)});
 }
-
+function timerDisplay(roundTime, s) {
+  if(document.getElementById("timer").style.display=="none") document.getElementById("timer").style.display = "";
+  document.getElementById("timer").lastChild.innerHTML = "" + roundTime-s;
+  if(roundTime-s == 0) document.getElementById("timer").style.display = "none";
+}
 function GameState() {
   this.username = "";
   this.type = "";                         // Potential for an error?

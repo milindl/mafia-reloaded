@@ -13,6 +13,9 @@ div#upper {
 div#upper table tr td {
   padding:5px;
 }
+div#upper table tr#timer  {
+  display: none;
+}
 div#upper table tr td.type {
   font-weight: bold;
 }
