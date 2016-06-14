@@ -12,6 +12,7 @@ ws.onerror = function(e) {
 var stillAlive = true;
 function dealMessage(e) {
   var message = e.data.toString();
+  console.log(message);
   if(message.indexOf("#TYPE:")==0) {
     type = message.substring(6);
     gs.username = usrname;
@@ -71,15 +72,20 @@ function dealMessage(e) {
 
 
   if(message.indexOf("#ELIMINATED:")==0) {
-    // var ms = message.split(":");
-    // gs.names[ms[1]] = false;
-    // if(ms[1]==gs.username) {
-    //   gs.splash("You've been eliminated in this round. Sorry for that :(", 0, function() {document.body.style.display = "";});
-    //   ws.close();
-    //   return;
-    // }
-    // var tf = (ms[2]=="True")?"":"not";
-    // gs.splash(ms[1] + " has been eliminated. He was " + tf + " a mafia.", 2, function(){});
+    var ms = message.split(":");
+    gs.names[ms[1]] = false;
+    if(ms[1]==gs.username) {
+      gs.splash("You've been eliminated in this round. Sorry for that :(", 0, function() {document.body.style.display = "";});
+      ws.close();
+      return;
+    }
+    if(gs.names[gs.username] == false) {
+      gs.splash("You've been killed in this round. Sorry for that :(", 0, function() {document.body.style.display = "";});
+      ws.close();
+      return;
+    }
+    var tf = (ms[2]=="True")?"":"not";
+    gs.splash(ms[1] + " has been eliminated. He was " + tf + " a mafia.", 2, function(){});
 
   }
 }

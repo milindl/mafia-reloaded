@@ -159,7 +159,7 @@ GameState.prototype.decorate = function(status) {
     for(var i=0; i!=nameKeys.length; i++) {
       if(this.names[nameKeys[i]] == false) continue;
 
-      console.log("Trying for.... " + nameKeys[i])
+      //console.log("Trying for.... " + nameKeys[i])
       document.getElementById("others-"+nameKeys[i]).innerHTML = "";
 
     }
@@ -176,7 +176,7 @@ GameState.prototype.decorate = function(status) {
       if(radioButtons[i].checked==true) {
         document.getElementById("others-" + radioButtons[i].value).innerHTML = "You";
       } else {
-        document.getElementById("others-" + radioButtons[i].value).innerHTML = "";        
+        document.getElementById("others-" + radioButtons[i].value).innerHTML = "";
       }
     }
   }
