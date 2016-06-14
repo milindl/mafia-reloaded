@@ -63,14 +63,11 @@ function dealMessage(e) {
     // }
     // document.getElementById("discussion-round-done").addEventListener("click",discussionRoundHandler);
   }
-
   if(message.indexOf("#VOTE_OPEN") == 0) {
     gs.decorate("It's the open vote.");
     gs.round = "#VOTE_OPEN";
     setupVoting(15, gs);
   }
-
-
   if(message.indexOf("#ELIMINATED:")==0) {
     var ms = message.split(":");
     gs.names[ms[1]] = false;
@@ -87,5 +84,14 @@ function dealMessage(e) {
     var tf = (ms[2]=="True")?"":"not";
     gs.splash(ms[1] + " has been eliminated. He was " + tf + " a mafia.", 2, function(){});
 
+  }
+  if(message.indexOf("#WIN")==0) {
+    var winner = message.split(":")[1];
+    if(winner=="CITIZEN") {
+      ws.close();
+      gs.splash("The citizens have won a glorious victory!", 0, function() {});
+    } else {
+      gs.splash("The mafia has overpowered the citizens", 0, function() {});       
+    }
   }
 }

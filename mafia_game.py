@@ -161,9 +161,9 @@ class MafiaGame:
             if eliminated in self.victims: self.victims.remove(eliminated)
             if eliminated in self.detectives: self.detectives.remove(eliminated)
         if(len(self.mafias)==0):
-            print("Mafias lose this game.")
+            self.wssock.send(self.wssock.client_list, "#WIN:CITIZEN")
         else:
-            print("Citizens lose this game")
+            self.wssock.send(self.wssock.client_list, "#WIN:MAFIA")
 
 n = 6
 import sys
