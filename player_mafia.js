@@ -18,9 +18,10 @@ function dealMafiaMessage(e) {
     gs.decorate("Welcome to the MAFIA");
   }
   if(message.indexOf("#MAFIA_VOTE") == 0) {
-    gs.decorate("It's the MAFIA Vote!");
     gs.round = "#MAFIA_VOTE";
+    console.log("initiate mafia vote...")
     setupVoting(15, gs);
+    gs.decorate("It's the MAFIA Vote!");
   }
 
 }

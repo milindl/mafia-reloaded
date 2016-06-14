@@ -33,8 +33,10 @@ function voteBankString(voteBank) {
 }
 
 function setupVoting(roundTime, gameState) {
+  console.log("Entered setupVoting");
   gameState.voteState = {};
   gameState.populateForm();
+  console.log("Past the populateForm function");
   //TODO: It makes me queasy to have to touch the HTML code OUTSIDE the decorate function - definite need to refactor this bit. It's frequently used, too
   var radioButtons = document.getElementsByClassName("players");
   var labels = document.getElementsByClassName("players-label");
@@ -46,7 +48,7 @@ function setupVoting(roundTime, gameState) {
         selected = radioButtons[i].value;
         ws.send("#VOTE:"+selected);
         if(gameState.round=="#VOTE_ANON") gameState.decorate("");
-        console.log("You've clicked on " + selected);
+        //console.log("You've clicked on " + selected);
         break;
       }
     }

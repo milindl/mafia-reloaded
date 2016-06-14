@@ -15,9 +15,9 @@ function dealDetectiveMessage(e) {
     gs.decorate("Nice, you're a detective");
   }
   if(message.indexOf("#DETECTIVE_VOTE") == 0) {
-    gs.decorate("It's the Detective Vote");
     gs.round = "#DETECTIVE_VOTE";
     setupVoting(15, gs);
+    gs.decorate("It's the Detective Vote");
   }
 
   if(message.indexOf("#DETECTION_RESULT:") == 0) {
