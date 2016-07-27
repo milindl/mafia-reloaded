@@ -3,7 +3,6 @@
 function loadScript(location) {                  // Dynamically loads a javascript file for use
   js = document.createElement("script");
   js.src = location;
-  js.id = "sandboxScript";
   document.body.appendChild(js);
 }
 function timer(interval, callbackEnd, callPerSecond) { //Timer function
@@ -68,10 +67,11 @@ function setupVoting(roundTime, gameState) {
   for(var i=0; i!=radioButtons.length; i++) {
     radioButtons[i].addEventListener("change", sendVote);
   }
+  console.log("starting up timer");
   timer(roundTime,endVote, function(s) {timerDisplay(roundTime, s)});
 }
 function timerDisplay(roundTime, s) {
-  if(document.getElementById("timer").style.display=="none") document.getElementById("timer").style.display = "";
+  if(document.getElementById("timer").style.display!="inline") document.getElementById("timer").style.display = "inline";
   document.getElementById("timer").lastChild.innerHTML = "" + roundTime-s;
   if(roundTime-s == 0) document.getElementById("timer").style.display = "none";
 }

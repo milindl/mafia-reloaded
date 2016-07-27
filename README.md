@@ -18,8 +18,9 @@ and
 
 ```shell
 $cd (directory of code)
-$python3 -m mafia_game.py [number_of_players]
+$python3 mafia_game.py [number_of_players]
 ```
 After this, you may access the game by navigating to http://(ip_of_pc_where_server_started):8888/
 If you do not specify the number of players, the default is 6.
 The game doesn't start until all of the players have joined and chosen a username for themselves.
+Also , currently it only works on localhost. I need to make a few changes so that it can be extended to all addresses :P 

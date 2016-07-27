@@ -16,7 +16,8 @@ class MafiaGame:
         while len(self.wssock.client_list)!=num:   # Wait till we're done with connections
             pass
         self.wssock.send(self.wssock.client_list, "#NAMES:" + ",".join([str(cl) for cl in self.wssock.client_list]))
-        #Randomize
+        # Randomize
+        # This is a really poor way to randomize
         self.wssock.client_list = list(set(self.wssock.client_list))
         #Assign numbers - of mafia, of detectives
         number_maf = num//3
