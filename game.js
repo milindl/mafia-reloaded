@@ -1,7 +1,7 @@
 var gs = new GameState();
 var players = [];
 var usrname = window.location.toString().split("?username=")[1]
-var ws = new WebSocket("ws://localhost:7000", usrname); //This is hard-coded to "localhost" -- need to make it so the current host is put in here
+var ws = new WebSocket("ws://"+window.location.hostname+":7000", usrname); //This is hard-coded to "localhost" -- need to make it so the current host is put in here
 ws.onopen = function(e) {
   ws.addEventListener("message", dealMessage);
 };
