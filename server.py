@@ -95,7 +95,7 @@ class WebServerSocket:
         for line in lines:
             k = line.split(":")
             if(len(k)<2): continue
-            parsed_headers[k[0].strip()] = "".join([str(k[i]).strip() for i in range(1,len(k))])
+            parsed_headers[(k[0].strip()).lower()] = "".join([str(k[i]).strip() for i in range(1,len(k))])
         return parsed_headers
 
     def __sec_key_hash(self, key):
@@ -115,8 +115,8 @@ class WebServerSocket:
         '''
         req = sock.recv(4096).decode("utf-8")
         headers = self.__parse_headers(req)
-        sec_ws_accept = self.__sec_key_hash(headers["Sec-WebSocket-Key"])
-        username = headers["Sec-WebSocket-Protocol"]
+        sec_ws_accept = self.__sec_key_hash(headers[("Sec-WebSocket-Key").lower()])
+        username = headers[("Sec-WebSocket-Protocol").lower()]
         reply = "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Protocol:"+username+" \r\nSec-WebSocket-Accept:" + sec_ws_accept + "\r\n\r\n"
         sock.send(reply.encode())
         #Now to get the username

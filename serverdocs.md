@@ -69,7 +69,7 @@ However, when the voting ends, the server sends out `#DETECTION_RESULT:user1:Tru
 
 
 ## Round3: Anonymous Voting Round
-
+x
 This round is started by the server sending out
 
 `#KILLED:user1` followed by `#VOTE_ANON`
