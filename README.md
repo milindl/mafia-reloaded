@@ -1,9 +1,9 @@
-#MAFIA reloaded
+# MAFIA reloaded
 
 Mafia is a common game played by people when they are bored and in large groups. Mostly, things are done by choosing a "God" and then closing your eyes when "God" says so. This often leads to semi-open eyes and so on. This is designed to complement the actual game and remove the need for a "God" in the game.
 I've included the game instructions on the index.html page, but they are only pointers, you're better off searching the internet.
 
-###Usage Instructions
+### Usage Instructions
 You need `python3` installed, and an _up to date_ web browser.
 I use a technology called WebSockets, which is relatively new, thus you need a good browser.
 There is no other direct dependancy.
